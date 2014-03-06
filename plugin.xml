@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://cordova.apache.org/ns/plugins/1.0"
+    id="org.doublenian.ibeacon"
+    version="0.1.0">
+    <name>ibeacon</name>
+	<description>todo</description>
+	<license>todo</license>
+	<keywords>todo</keywords>
+    <js-module src="www/ibeacon.js" name="ibeacon">
+        <clobbers target="ibeacon" />
+    </js-module>
+    <!-- ios -->
+    <platform name="ios">     
+		<framework src="CoreBluetooth.framework" />
+		<framework src="CoreLocation.framework" />
+        <header-file src="src/ios/CDViBeacon.h" />
+        <source-file src="src/ios/CDViBeacon.m" />
+
+    	<config-file target="config.xml" parent="/*">
+            <feature name="CDViBeacon">
+                <param name="ios-package" value="CDViBeacon" />
+            </feature>
+        </config-file>
+	</platform>
+</plugin>
