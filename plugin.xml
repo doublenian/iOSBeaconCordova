@@ -1,25 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://cordova.apache.org/ns/plugins/1.0"
-    id="org.doublenian.ibeacon"
+    id="org.doublenian.mybeacon"
     version="0.1.0">
-    <name>ibeacon</name>
+    <name>MyBeacon</name>
 	<description>todo</description>
 	<license>todo</license>
 	<keywords>todo</keywords>
-    <js-module src="www/ibeacon.js" name="ibeacon">
-        <clobbers target="ibeacon" />
-    </js-module>
-    <!-- ios -->
-    <platform name="ios">     
-		<framework src="CoreBluetooth.framework" />
-		<framework src="CoreLocation.framework" />
-        <header-file src="src/ios/CDViBeacon.h" />
-        <source-file src="src/ios/CDViBeacon.m" />
-
-    	<config-file target="config.xml" parent="/*">
-            <feature name="CDViBeacon">
-                <param name="ios-package" value="CDViBeacon" />
+    <!--ios-->
+     <platform name="ios">    
+        <config-file target="config.xml" parent="/*">
+            <feature name="MyBeacon">
+                <param name="ios-package" value="MyBeacon" /> 
             </feature>
         </config-file>
-	</platform>
+        <js-module src="www/MyBeacon.js" name="MyBeacon">
+            <clobbers target="myBeacon" />
+        </js-module>
+        <header-file src="src/ios/MyBeacon.h" />
+        <source-file src="src/ios/MyBeacon.m" />
+    </platform>
 </plugin>
