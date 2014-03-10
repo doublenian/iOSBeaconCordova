@@ -7,7 +7,7 @@ function MyBeacon() {}
 MyBeacon.prototype.getBeacons = function() {
   exec(function(result){
       // result handler
-      alert(result);
+      alert('Beacon count is '+result);
     },
     function(error){
       // error handler
