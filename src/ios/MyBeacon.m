@@ -14,8 +14,9 @@ static NSString * const kIdentifier = @"SomeIdentifier";
 @interface MyBeacon ()
 @property (nonatomic, strong) CLLocationManager *locationManager;
 @property (nonatomic, strong) CLBeaconRegion *beaconRegion;
-//@property NSArray *detectedBeacons;
-@property int detectedCount;
+@property NSArray *detectedBeacons;
+
+
 
 @end
 
@@ -31,8 +32,7 @@ static NSString * const kIdentifier = @"SomeIdentifier";
         self.locationManager = [[CLLocationManager alloc] init];
         self.locationManager.delegate = self;
     }
-    //self.detectedBeacons = [NSArray array];
-    self.detectedCount = 0;
+    
   
     
     
@@ -44,44 +44,83 @@ static NSString * const kIdentifier = @"SomeIdentifier";
 
 -(void)getBeacons:(CDVInvokedUrlCommand *)command
 {
-   // NSArray* output = [NSArray array];
-   // NSDictionary* output;
-    int output = self.detectedCount;
     
-    /*
-    if([self.detectedBeacons count] > 0)
-    {
-        //convert list of beacons to a an array of simple property-value objects
-        for (CLBeacon *bt in self.detectedBeacons) {
-           
+    [self.commandDelegate runInBackground:^{
+        NSMutableArray* output = [NSMutableArray array];
+        
+      //  NSLog(@"...output Beacons Count is:%d...",[output count]);
+        
+        if([self.detectedBeacons count] > 0)
+        {
+            //convert list of beacons to a an array of simple property-value objects
+         //     NSLog(@"...detected Beacons Count is:%d...",[self.detectedBeacons count]);
             
+            
+            for (CLBeacon *beacon in self.detectedBeacons) {
+                [output addObject:[self beaconToDictionary:beacon]];
+            }
+            
+             NSLog(@"...Output Count is:%d...",[output count]);
         }
-    }*/
-    
-    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:output];
-    
-    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        
+        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:output];
+        
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
+
+}
 
 
+- (NSMutableDictionary*)beaconToDictionary:(CLBeacon *)beacon
+{
+    NSMutableDictionary* props = [NSMutableDictionary dictionaryWithCapacity:3];
+    NSNumber* major = beacon.major;
+    NSNumber* minor = beacon.minor;
+    NSNumber* rssi = [NSNumber numberWithInt:beacon.rssi];
+    /*
+    
+    if(major == nil) {
+        major = beacon.major;
+    }
+    if(minor == nil) {
+        minor = beacon.minor;
+    }
+    if(rssi == nil) {
+        rssi = [NSNumber numberWithInt:beacon.rssi];
+    }
+     */
+    
+    [props setValue:major forKey:@"major"];
+    [props setValue:minor forKey:@"minor"];
+    [props setValue:rssi forKey:@"rssi"];
+ 
+    
+
+   /*
+    if(beacon != nil) {
+        [props setValue:beacon.distance forKey:@"distance"];
+        [props setValue:[NSNumber numberWithInt:beacon.proximity] forKey:@"proximity"];
+        
+        if(beacon.proximityUUID != nil) {
+            [props setValue:beacon.proximityUUID.UUIDString forKey:@"proximityUUID"];
+        }
+    }
+    */
+    
+    
+    return props;
 }
 
 
 - (void)locationManager:(CLLocationManager *)manager didRangeBeacons:(NSArray *)beacons inRegion:(CLBeaconRegion *)region
 {
     //self.detectedBeacons = beacons;
-    self.detectedCount = [beacons count];
-    if([beacons count ] > 0)
-    {
-        NSLog(@"...RangeBeacons Count is:%d...",[beacons count]);
+  
+  
+       // NSLog(@"...RangeBeacons Count is:%d...",[beacons count]);
+        self.detectedBeacons = beacons;
         
-        for(CLBeacon *bt in beacons)
-        {
-            NSLog(@"detected Beacon %@,+++RSSI:%d",bt.minor,bt.rssi);
-            
-            
-            
-        }
-    }
+    
     
     
     
