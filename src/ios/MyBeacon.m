@@ -60,7 +60,7 @@ static NSString * const kIdentifier = @"SomeIdentifier";
                 [output addObject:[self beaconToDictionary:beacon]];
             }
             
-             NSLog(@"...Output Count is:%d...",[output count]);
+             NSLog(@"...Output Count is:%lu...",(unsigned long)[output count]);
         }
         
         CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:output];
@@ -77,8 +77,9 @@ static NSString * const kIdentifier = @"SomeIdentifier";
     NSNumber* major = beacon.major;
     NSNumber* minor = beacon.minor;
     NSNumber* rssi = [NSNumber numberWithInt:beacon.rssi];
-    /*
+    NSNumber*  accuracy= [NSNumber numberWithDouble:beacon.accuracy];
     
+    /*
     if(major == nil) {
         major = beacon.major;
     }
@@ -88,11 +89,16 @@ static NSString * const kIdentifier = @"SomeIdentifier";
     if(rssi == nil) {
         rssi = [NSNumber numberWithInt:beacon.rssi];
     }
+     
      */
+    
     
     [props setValue:major forKey:@"major"];
     [props setValue:minor forKey:@"minor"];
     [props setValue:rssi forKey:@"rssi"];
+    [props setValue:accuracy forKey:@"accuracy"];
+    
+    
  
     
 
@@ -119,10 +125,6 @@ static NSString * const kIdentifier = @"SomeIdentifier";
   
        // NSLog(@"...RangeBeacons Count is:%d...",[beacons count]);
         self.detectedBeacons = beacons;
-        
-    
-    
-    
     
 }
 
