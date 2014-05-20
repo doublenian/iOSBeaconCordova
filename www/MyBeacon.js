@@ -2,17 +2,18 @@ cordova.define("org.doublenian.mybeacon.MyBeacon", function(require, exports, mo
 /**
  * Constructor
  */
- function MyBeacon() {}
-             
-  MyBeacon.prototype.getBeacons = function(sucess,error) {
-          exec(sucess,
+  function MyBeacon() {}
+               
+               MyBeacon.prototype.getBeacons = function(sucess,error) {
+               exec(sucess,
                     error,
                     "MyBeacon",
                     "getBeacons",
                     []
                     );
-           }
+    }
                
    var myBeacon = new MyBeacon();
-   module.exports = myBeacon;
-   });
+    module.exports = myBeacon;
+
+});
