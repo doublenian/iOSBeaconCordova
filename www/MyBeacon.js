@@ -1,4 +1,4 @@
-cordova.define("org.doublenian.mybeacon.MyBeacon", function(require, exports, module) { var exec = require('cordova/exec');
+var exec = require('cordova/exec');
 /**
  * Constructor
  */
@@ -16,4 +16,4 @@ cordova.define("org.doublenian.mybeacon.MyBeacon", function(require, exports, mo
    var myBeacon = new MyBeacon();
     module.exports = myBeacon;
 
-});
+
